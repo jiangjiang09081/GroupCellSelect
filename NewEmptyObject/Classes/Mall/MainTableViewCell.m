@@ -82,7 +82,7 @@
 
 - (void)setThirdIndex:(NSString *)thirdIndex{
     _thirdIndex = thirdIndex;
-    if (_isSelect) {
+    if (_isSelect && _MUser.isSecondFold) {
         _MUser.thirdIndex = thirdIndex;
     }else{
         _MUser.thirdIndex = @"10000";
@@ -138,13 +138,16 @@
             if (thirdIndex != 10000) {
                 if (thirdIndex == 999) {//第三层未点击时
                     weakSelf.contentClickBlock ? weakSelf.contentClickBlock(secondIndex) : nil;
+                    weakSelf.subView.frameHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];
+                    weakSelf.subHeight = weakSelf.subView.frameHeight;
+                    weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
+                    weakSelf.bodyButtonBlock ? weakSelf.bodyButtonBlock(weakSelf.bodyButton.selected, weakSelf.isFolding, secondIndex, thirdIndex): nil;
                 }else{//第三层点击时
                     weakSelf.contentThirdClickBlock ? weakSelf.contentThirdClickBlock(thirdIndex) : nil;
+                    weakSelf.subView.frameHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];
+                    weakSelf.subHeight = weakSelf.subView.frameHeight;
+                    weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
                 }
-                weakSelf.subView.frameHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];
-                weakSelf.subHeight = weakSelf.subView.frameHeight;
-                weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
-                weakSelf.bodyButtonBlock ? weakSelf.bodyButtonBlock(weakSelf.bodyButton.selected, weakSelf.isFolding, secondIndex, thirdIndex): nil;
             }
         };
         subView.frameHeight = kAdaptor(40)*contentArr.count;
@@ -164,7 +167,7 @@
             id content = contentArr[index];
             if ([content isKindOfClass:[NSDictionary class]]) {
                 NSArray *contentSubArr = [content objectForKey:@"subArr"];
-                height += kAdaptor(40) * contentSubArr.count;
+                height += kAdaptor(groupThirdCellHeight) * contentSubArr.count;
             }
         }
     }

@@ -59,7 +59,7 @@
     if (!cell) {
         cell = [[MainTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mineCell"];
     }
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     BOOL click = NO;
     NSString *secondIndex = nil;
     NSString *thirdIndex  = nil;
@@ -67,7 +67,7 @@
         NSString *str = [dic objectForKey:@"index"];
         if ([str integerValue] == indexPath.row) {
             secondIndex = [dic objectForKey:@"SecondIndex"];
-            thirdIndex = thirdIndex;
+            thirdIndex = [dic objectForKey:@"thirdIndex"];
             click = YES;
             break;
         }
@@ -78,10 +78,6 @@
     cell.bodyButtonBlock = ^(BOOL select, BOOL isFold, NSInteger secondIndex, NSInteger thirdIndex) {
         if (select) {
             [self.seleArray removeAllObjects];
-//            _MUser.secondIndex = @"10000";
-//            _MUser.thirdIndex = @"10000";
-//            _MUser.isSecondFold = NO;
-//            _MUser.isZhankai = NO;
             [self.seleArray addObject:@{@"index": [NSString stringWithFormat:@"%ld", (long)indexPath.row], @"fold": [NSString stringWithFormat:@"%d", isFold], @"SecondIndex": [NSString stringWithFormat:@"%ld", (long)secondIndex], @"thirdIndex": [NSString stringWithFormat:@"%ld", (long)thirdIndex]}];
             if (!isFold) {
                 [self selectAtIndex:indexPath.row];

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#define groupThirdCellHeight 40
 @interface NewUserManager : NSObject
 
 + (NewUserManager *)shareUserManager;
@@ -17,5 +17,6 @@
 @property (nonatomic, strong) NSString *thirdIndex;
 @property (nonatomic) BOOL isSecondFold;//点击的折叠的
 @property (nonatomic) BOOL isZhankai;//折叠展开,折叠关闭
+@property (nonatomic) BOOL isThirdSelect;//第三层点击改变颜色
 
 @end

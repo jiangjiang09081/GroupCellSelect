@@ -69,10 +69,11 @@
                                         contentSubButton.color = [UIColor grayColor];
                                         contentSubButton.selectColor = [UIColor greenColor];
                                         contentSubButton.tag = 777 + j;
-                                        contentSubButton.selectColor = HEXCOLOR(0xBCDEFA);
                                         contentSubButton.bodyfoldBlock = ^(BOOL isbodyfoldSelect, BOOL isSubFold) {
                                             for (CustomButtonView *thirdbut in weakSelf.thirdBodyView.subviews) {
                                                 if (thirdbut == contentSubButton) {
+                                                    _MUser.isSecondFold = YES;
+                                                    _MUser.isZhankai = YES;
                                                     thirdbut.isSelect = YES;
                                                     weakSelf.subButtonClickBlock ? weakSelf.subButtonClickBlock(cusbut.tag - 66, thirdbut.tag - 777) : nil;
                                                 } else {
@@ -82,6 +83,12 @@
                                         };
                                         contentSubButton.title = contentSubArr[j];
                                         [self.thirdBodyView addSubview:contentSubButton];
+                                    }
+                                    CustomButtonView *thirdBut = [weakSelf.thirdBodyView viewWithTag:[_MUser.thirdIndex integerValue] + 777];
+                                    if (thirdBut) {
+                                        thirdBut.isSelect = YES;
+                                    } else {
+                                        thirdBut.isSelect = NO;
                                     }
                                     weakSelf.thirdBodyView.frameHeight = kAdaptor(40) * contentSubArr.count;
                                     weakSelf.thirdBodyView.frameY = CGRectGetMaxY(cusbut.frame);

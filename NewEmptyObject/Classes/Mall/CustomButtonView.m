@@ -95,9 +95,14 @@
     if (_isUpdate) {
         if (_MUser.isSecondFold) {//点击折叠的
             if (_MUser.isZhankai) {//折叠展开,但是不点击第三层
-                if ([_MUser.secondIndex integerValue] != 10000) {
+                if ([_MUser.secondIndex integerValue] != 10000 && [_MUser.thirdIndex integerValue] == 999) {
                     _isSelect = YES;
                     _bodyButton.selected = _isSelect;
+                    self.bodyfoldBlock ? self.bodyfoldBlock(_bodyButton.selected, _MUser.isSecondFold) : nil;
+                } else {
+                    _isSelect = YES;
+                    _bodyButton.selected = _isSelect;
+                    _MUser.isThirdSelect = YES;
                     self.bodyfoldBlock ? self.bodyfoldBlock(_bodyButton.selected, _MUser.isSecondFold) : nil;
                 }
             } else {//折叠关闭
