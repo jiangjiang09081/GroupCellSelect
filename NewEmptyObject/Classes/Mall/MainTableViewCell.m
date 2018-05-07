@@ -41,10 +41,7 @@
         _bodyButton.backgroundColor = [UIColor clearColor];
     }
     self.bodyButtonBlock ? self.bodyButtonBlock(button.selected, _isFolding, 10000, 10000): nil;
-    if (_isSelect && _isFolding && _isSecondFold) {
-        _bodyView.frameHeight = _bodyButton.frameHeight + _subHeight;
-        _rightImg.highlighted = YES;
-    } else if (_isSelect && _isFolding && !_isSecondFold){
+    if (_isSelect && _isFolding) {
         _bodyView.frameHeight = _bodyButton.frameHeight + _subHeight;
         _rightImg.highlighted = YES;
     } else{
@@ -75,7 +72,6 @@
     if (_isSelect) {
         _MUser.secondIndex = _secondIndex;
     }else{
-        _MUser.isSecondFold = NO;
         _MUser.secondIndex = @"10000";
     }
 }
@@ -120,38 +116,43 @@
     NSArray *contentArr = [data objectForKey:@"contentArr"];
     if (contentArr.count > 0) {
        CustomSecondView *subView = [[CustomSecondView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_bodyButton.frame), _bodyView.frame.size.width, 0)];
-        subView.backgroundColor = [UIColor clearColor];
+        subView.backgroundColor = [UIColor blueColor];
+        subView.tag = 2;
         _subView = subView;
+        subView.frameHeight = kAdaptor(40)*contentArr.count;
+        _subHeight = subView.frameHeight;
         [_bodyView addSubview:subView];
         _isFolding = YES;
         [subView setcontentWithData:contentArr];
         __weak __typeof(self) weakSelf = self;
         //10000就相当于是空数据 因为NSInterger默认nil是0
         subView.subButtonClickBlock = ^(NSInteger secondIndex, NSInteger thirdIndex) {
+            CustomSecondView *cusView = [weakSelf.bodyView viewWithTag:2];
+            if (cusView == subView) {
+                weakSelf.subView = cusView;
+            }
             if (secondIndex != 10000 && thirdIndex == 10000) {
                 weakSelf.contentClickBlock ? weakSelf.contentClickBlock(secondIndex) : nil;
-                weakSelf.subView.frameHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:10000];
-                weakSelf.subHeight = weakSelf.subView.frameHeight;
+                weakSelf.subHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:10000];
                 weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
+                weakSelf.subView.frameHeight = weakSelf.subHeight;
                 weakSelf.bodyButtonBlock ? weakSelf.bodyButtonBlock(weakSelf.bodyButton.selected, weakSelf.isFolding, secondIndex, 10000): nil;
             }
             if (thirdIndex != 10000) {
                 if (thirdIndex == 999) {//第三层未点击时
                     weakSelf.contentClickBlock ? weakSelf.contentClickBlock(secondIndex) : nil;
-                    weakSelf.subView.frameHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];
-                    weakSelf.subHeight = weakSelf.subView.frameHeight;
+                    weakSelf.subHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];
                     weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
                     weakSelf.bodyButtonBlock ? weakSelf.bodyButtonBlock(weakSelf.bodyButton.selected, weakSelf.isFolding, secondIndex, thirdIndex): nil;
+                    weakSelf.subView.frameHeight = weakSelf.subHeight;
                 }else{//第三层点击时
                     weakSelf.contentThirdClickBlock ? weakSelf.contentThirdClickBlock(thirdIndex) : nil;
-                    weakSelf.subView.frameHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];
-                    weakSelf.subHeight = weakSelf.subView.frameHeight;
+                    weakSelf.subHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];;
                     weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
+                    weakSelf.subView.frameHeight = weakSelf.subHeight;
                 }
             }
         };
-        subView.frameHeight = kAdaptor(40)*contentArr.count;
-        _subHeight = subView.frameHeight;
     }else{
         _isFolding = NO;
     }

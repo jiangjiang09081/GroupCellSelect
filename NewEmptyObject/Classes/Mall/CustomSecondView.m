@@ -17,7 +17,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.frame = frame;
+//        self.frame = frame;
         self.backgroundColor = [UIColor whiteColor];
         [self addSubUI];
     }
@@ -26,7 +26,7 @@
 
 - (void)addSubUI{
     _thirdBodyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, 0)];
-    _thirdBodyView.backgroundColor = [UIColor blueColor];
+    _thirdBodyView.backgroundColor = [UIColor whiteColor];
     _thirdBodyView.clipsToBounds = YES;
 //    _thirdBodyView.hidden = YES;
     [self addSubview:_thirdBodyView];
@@ -65,7 +65,7 @@
                                     id content = dataArr[cusbut.tag - 66];
                                     NSArray *contentSubArr = [content objectForKey:@"subArr"];
                                     for (NSInteger j = 0; j < contentSubArr.count; j++) {
-                                        CustomButtonView *contentSubButton = [[CustomButtonView alloc] initWithFrame:CGRectMake(0, j * kAdaptor(40), self.thirdBodyView.frameWidth, kAdaptor(40))];
+                                        CustomButtonView *contentSubButton = [[CustomButtonView alloc] initWithFrame:CGRectMake(0, j * kAdaptor(groupThirdCellHeight), self.thirdBodyView.frameWidth, kAdaptor(groupThirdCellHeight))];
                                         contentSubButton.color = [UIColor grayColor];
                                         contentSubButton.selectColor = [UIColor greenColor];
                                         contentSubButton.tag = 777 + j;
@@ -90,7 +90,7 @@
                                     } else {
                                         thirdBut.isSelect = NO;
                                     }
-                                    weakSelf.thirdBodyView.frameHeight = kAdaptor(40) * contentSubArr.count;
+                                    weakSelf.thirdBodyView.frameHeight = kAdaptor(groupThirdCellHeight) * contentSubArr.count;
                                     weakSelf.thirdBodyView.frameY = CGRectGetMaxY(cusbut.frame);
                                     weakSelf.frameHeight = kAdaptor(40)*dataArr.count + weakSelf.thirdBodyView.frameHeight;
                                 } else {//折叠关闭
@@ -153,7 +153,7 @@
             id content = dataArr[index];
             if ([content isKindOfClass:[NSDictionary class]]) {
                 NSArray *contentSubArr = [content objectForKey:@"subArr"];
-                height += kAdaptor(40) * contentSubArr.count;
+                height += kAdaptor(groupThirdCellHeight) * contentSubArr.count;
             }
         }
     }

@@ -19,7 +19,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.frame = frame;
+//        self.frame = frame;
         self.backgroundColor = [UIColor whiteColor];
         [self addSubUI];
     }
@@ -50,7 +50,7 @@
     _rightImg.highlightedImage = [UIImage imageNamed:@"向下icon"];
     _rightImg.hidden = YES;
     [bodyButton addSubview:_rightImg];
-    UIView *linview = [[UIView alloc] initWithFrame:CGRectMake(0, kAdaptor(39), _bodyButton.frameWidth, 1)];
+    UIView *linview = [[UIView alloc] initWithFrame:CGRectMake(0, kAdaptor(self.frame.size.height - 1), _bodyButton.frameWidth, 1)];
     linview.backgroundColor = [UIColor whiteColor];
     [_bodyButton addSubview:linview];
 }
