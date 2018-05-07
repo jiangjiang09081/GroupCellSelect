@@ -115,22 +115,20 @@
     _titleLabel.text = [data objectForKey:@"name"];
     NSArray *contentArr = [data objectForKey:@"contentArr"];
     if (contentArr.count > 0) {
+        _isFolding = YES;
        CustomSecondView *subView = [[CustomSecondView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_bodyButton.frame), _bodyView.frame.size.width, 0)];
         subView.backgroundColor = [UIColor blueColor];
-        subView.tag = 2;
         _subView = subView;
         subView.frameHeight = kAdaptor(40)*contentArr.count;
         _subHeight = subView.frameHeight;
         [_bodyView addSubview:subView];
-        _isFolding = YES;
         [subView setcontentWithData:contentArr];
+        if (_isSelect && _isFolding && [_MUser.secondIndex integerValue] == 10000) {
+            _bodyView.frameHeight = _bodyButton.frameHeight + _subHeight;
+        }
         __weak __typeof(self) weakSelf = self;
         //10000就相当于是空数据 因为NSInterger默认nil是0
         subView.subButtonClickBlock = ^(NSInteger secondIndex, NSInteger thirdIndex) {
-            CustomSecondView *cusView = [weakSelf.bodyView viewWithTag:2];
-            if (cusView == subView) {
-                weakSelf.subView = cusView;
-            }
             if (secondIndex != 10000 && thirdIndex == 10000) {
                 weakSelf.contentClickBlock ? weakSelf.contentClickBlock(secondIndex) : nil;
                 weakSelf.subHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:10000];

@@ -80,6 +80,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     BOOL click = NO;
+    BOOL isfold = NO;
     NSString *secondIndex = nil;
     NSString *thirdIndex  = nil;
     for (NSDictionary *dic in _seleArray) {
@@ -87,10 +88,12 @@
         if ([str integerValue] == indexPath.row) {
             secondIndex = [dic objectForKey:@"SecondIndex"];
             thirdIndex = [dic objectForKey:@"thirdIndex"];
+            isfold = [[dic objectForKey:@"fold"] boolValue];
             click = YES;
             break;
         }
     }
+    cell.isFolding = isfold;
     cell.isSelect = click;
     cell.secondIndex = secondIndex;
     cell.thirdIndex = thirdIndex;
@@ -148,7 +151,7 @@
 }
 
 - (void)selectAtIndex:(NSInteger)index{
-    NSLog(@"点击不是折叠的%ld", index);
+    NSLog(@"点击不是折叠的%ld", (long)index);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
