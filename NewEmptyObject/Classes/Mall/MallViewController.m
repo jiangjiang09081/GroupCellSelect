@@ -62,20 +62,26 @@
     
     BOOL click = NO;
     NSString *secondIndex = nil;
+    NSString *thirdIndex  = nil;
     for (NSDictionary *dic in _seleArray) {
         NSString *str = [dic objectForKey:@"index"];
         if ([str integerValue] == indexPath.row) {
             secondIndex = [dic objectForKey:@"SecondIndex"];
+            thirdIndex = thirdIndex;
             click = YES;
             break;
         }
     }
     cell.isSelect = click;
     cell.secondIndex = secondIndex;
-//    cell.thirdIndex = thirdIndex;
+    cell.thirdIndex = thirdIndex;
     cell.bodyButtonBlock = ^(BOOL select, BOOL isFold, NSInteger secondIndex, NSInteger thirdIndex) {
         if (select) {
             [self.seleArray removeAllObjects];
+//            _MUser.secondIndex = @"10000";
+//            _MUser.thirdIndex = @"10000";
+//            _MUser.isSecondFold = NO;
+//            _MUser.isZhankai = NO;
             [self.seleArray addObject:@{@"index": [NSString stringWithFormat:@"%ld", (long)indexPath.row], @"fold": [NSString stringWithFormat:@"%d", isFold], @"SecondIndex": [NSString stringWithFormat:@"%ld", (long)secondIndex], @"thirdIndex": [NSString stringWithFormat:@"%ld", (long)thirdIndex]}];
             if (!isFold) {
                 [self selectAtIndex:indexPath.row];
@@ -136,7 +142,12 @@
         NSString *fold = [dic objectForKey:@"fold"];
         NSInteger secondIndex = [[dic objectForKey:@"SecondIndex"] integerValue];
         if ([str integerValue] == indexPath.row && [fold integerValue] == 1){
-            return [MainTableViewCell calculateHeightWithData:_dataArr[indexPath.row] withIndex:secondIndex];
+            if (_MUser.isZhankai) {//折叠展开
+              return [MainTableViewCell calculateHeightWithData:_dataArr[indexPath.row] withIndex:secondIndex];
+            } else {
+              return [MainTableViewCell calculateHeightWithData:_dataArr[indexPath.row] withIndex:10000];
+            }
+            
         }else {
             return kAdaptor(45);
         }

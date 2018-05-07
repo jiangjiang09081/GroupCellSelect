@@ -72,10 +72,20 @@
 
 - (void)setSecondIndex:(NSString *)secondIndex{
     _secondIndex = secondIndex;
-    if (_isSelect && _isFolding) {
-        _subView.secondIndex = _secondIndex;
-    }else {
-        _subView.secondIndex = @"10000";
+    if (_isSelect) {
+        _MUser.secondIndex = _secondIndex;
+    }else{
+        _MUser.isSecondFold = NO;
+        _MUser.secondIndex = @"10000";
+    }
+}
+
+- (void)setThirdIndex:(NSString *)thirdIndex{
+    _thirdIndex = thirdIndex;
+    if (_isSelect) {
+        _MUser.thirdIndex = thirdIndex;
+    }else{
+        _MUser.thirdIndex = @"10000";
     }
 }
 
@@ -113,9 +123,6 @@
         subView.backgroundColor = [UIColor clearColor];
         _subView = subView;
         [_bodyView addSubview:subView];
-        if ([_secondIndex integerValue] != 10000) {
-            subView.secondIndex = _secondIndex;
-        }
         _isFolding = YES;
         [subView setcontentWithData:contentArr];
         __weak __typeof(self) weakSelf = self;

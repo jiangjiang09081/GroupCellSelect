@@ -11,7 +11,6 @@
 @interface CustomSecondView : UIView
 
 @property (nonatomic, strong) NSString *secondIndex;
-//@property (nonatomic, assign) NSInteger thirdIndex;
 
 - (void)setcontentWithData:(NSArray *)dataArr;
 

@@ -21,4 +21,5 @@
 @property (nonatomic, copy) void(^contentThirdClickBlock)(NSInteger index);//折叠子视图展开点击回调
 //第二层点击位置第三层点击位置
 @property (nonatomic, strong) NSString *secondIndex;
+@property (nonatomic, strong) NSString *thirdIndex;
 @end

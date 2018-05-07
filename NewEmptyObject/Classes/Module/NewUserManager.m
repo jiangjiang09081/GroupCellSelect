@@ -22,6 +22,8 @@ static NewUserManager *userManager = nil;
     self = [super init];
     if (self) {
         //这个类是处理请求到的登录后的用户数据
+        _secondIndex = @"10000";
+        _thirdIndex = @"10000";
     }
     return self;
 }

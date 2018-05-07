@@ -90,6 +90,31 @@
     }
 }
 
+- (void)setIsUpdate:(BOOL)isUpdate{
+    _isUpdate = isUpdate;
+    if (_isUpdate) {
+        if (_MUser.isSecondFold) {//点击折叠的
+            if (_MUser.isZhankai) {//折叠展开,但是不点击第三层
+                if ([_MUser.secondIndex integerValue] != 10000) {
+                    _isSelect = YES;
+                    _bodyButton.selected = _isSelect;
+                    self.bodyfoldBlock ? self.bodyfoldBlock(_bodyButton.selected, _MUser.isSecondFold) : nil;
+                }
+            } else {//折叠关闭
+                if ([_MUser.secondIndex integerValue] != 10000) {
+                    _isSelect = YES;
+                    _bodyButton.selected = NO;
+                    self.bodyfoldBlock ? self.bodyfoldBlock(_bodyButton.selected, _MUser.isSecondFold) : nil;
+                }
+            }
+        } else {//点击不是折叠的
+            _isSelect = YES;
+            _bodyButton.selected = _isSelect;
+            self.bodyfoldBlock ? self.bodyfoldBlock(_bodyButton.selected, _MUser.isSecondFold) : nil;
+        }
+    }
+}
+
 - (void)setSelectColor:(UIColor *)selectColor{
     _selectColor = selectColor;
 }

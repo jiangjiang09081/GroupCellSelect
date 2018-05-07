@@ -18,4 +18,6 @@
 
 @property (nonatomic, assign) BOOL isSelect;
 
+@property (nonatomic) BOOL isUpdate;
+
 @end

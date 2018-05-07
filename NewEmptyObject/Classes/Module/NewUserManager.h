@@ -12,4 +12,10 @@
 
 + (NewUserManager *)shareUserManager;
 
+//第二层点击位置第三层点击位置
+@property (nonatomic, strong) NSString *secondIndex;
+@property (nonatomic, strong) NSString *thirdIndex;
+@property (nonatomic) BOOL isSecondFold;//点击的折叠的
+@property (nonatomic) BOOL isZhankai;//折叠展开,折叠关闭
+
 @end

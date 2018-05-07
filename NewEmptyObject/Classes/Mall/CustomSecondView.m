@@ -24,13 +24,6 @@
     return self;
 }
 
-- (void)setSecondIndex:(NSString *)secondIndex{
-    _secondIndex = secondIndex;
-    if (![_secondIndex isEqualToString:@"10000"]) {
-        NSLog(@"%@", _secondIndex);
-    }
-}
-
 - (void)addSubUI{
     _thirdBodyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, 0)];
     _thirdBodyView.backgroundColor = [UIColor blueColor];
@@ -62,7 +55,9 @@
                         CustomButtonView *cusbut = but;//循环列表button
                         if (cusbut == contentButton) {//是当前点击的button
                             if (isSubFold) {//点击折叠的 折叠又分折叠展开与折叠关闭
+                                _MUser.isSecondFold = YES;
                                 if (isbodyfoldSelect) {//折叠展开
+                                    _MUser.isZhankai = YES;
                                     cusbut.isSelect = YES;//999是默认展开折叠但是不点击第三层
                                     weakSelf.subButtonClickBlock ? weakSelf.subButtonClickBlock(cusbut.tag - 66, 999) : nil;
                                     i = cusbut.tag;
@@ -94,11 +89,14 @@
                                 } else {//折叠关闭
                                     i = cusbut.tag;
                                     weakSelf.thirdBodyView.frameHeight = 0;
+                                    _MUser.isZhankai = NO;
                                     cusbut.isSelect = NO;
                                     weakSelf.frameHeight = kAdaptor(40)*dataArr.count;
                                     weakSelf.subButtonClickBlock ? weakSelf.subButtonClickBlock(cusbut.tag - 66, 10000) : nil;
                                 }
                             } else {//点击的不是折叠的
+                                _MUser.isSecondFold = NO;
+                                _MUser.isZhankai = NO;
                                 cusbut.isSelect = YES;
                                 weakSelf.thirdBodyView.frameHeight = 0;
                                 cusbut.frameY = (cusbut.tag - 66) * kAdaptor(40);
@@ -130,11 +128,12 @@
                     }
                 }
             };
-            contentButton.tag = 66 + i + 1;
-            if ([_secondIndex integerValue] == i) {
-                contentButton.isSelect = YES;
-            }
+            contentButton.tag = 66 + i;
             [self addSubview:contentButton];
+        }
+        CustomButtonView *but = [self viewWithTag:[_MUser.secondIndex integerValue] + 66];
+        if (but) {
+            but.isUpdate = YES;
         }
     }
 }
