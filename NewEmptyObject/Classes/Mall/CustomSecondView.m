@@ -37,7 +37,7 @@
     if (dataArr.count > 0) {
         for (NSInteger i = 0; i < dataArr.count; i++) {
             id content = dataArr[i];
-            CustomButtonView *contentButton = [[CustomButtonView alloc] initWithFrame:CGRectMake(0, i * kAdaptor(40), self.frameWidth, kAdaptor(40))];
+            CustomButtonView *contentButton = [[CustomButtonView alloc] initWithFrame:CGRectMake(0, i * kAdaptor(groupSecondCellHight), self.frameWidth, kAdaptor(groupSecondCellHight))];
             contentButton.color = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
             contentButton.selectColor = [UIColor colorWithRed:72/255.0 green:159/255.0 blue:233/255.0 alpha:1];
             if ([content isKindOfClass:[NSDictionary class]]) {
@@ -92,13 +92,13 @@
                                     }
                                     weakSelf.thirdBodyView.frameHeight = kAdaptor(groupThirdCellHeight) * contentSubArr.count;
                                     weakSelf.thirdBodyView.frameY = CGRectGetMaxY(cusbut.frame);
-                                    weakSelf.frameHeight = kAdaptor(40)*dataArr.count + weakSelf.thirdBodyView.frameHeight;
+                                    weakSelf.frameHeight = kAdaptor(groupSecondCellHight)*dataArr.count + weakSelf.thirdBodyView.frameHeight;
                                 } else {//折叠关闭
                                     i = cusbut.tag;
                                     weakSelf.thirdBodyView.frameHeight = 0;
                                     _MUser.isZhankai = NO;
                                     cusbut.isSelect = NO;
-                                    weakSelf.frameHeight = kAdaptor(40)*dataArr.count;
+                                    weakSelf.frameHeight = kAdaptor(groupSecondCellHight)*dataArr.count;
                                     weakSelf.subButtonClickBlock ? weakSelf.subButtonClickBlock(cusbut.tag - 66, 10000) : nil;
                                 }
                             } else {//点击的不是折叠的
@@ -106,8 +106,8 @@
                                 _MUser.isZhankai = NO;
                                 cusbut.isSelect = YES;
                                 weakSelf.thirdBodyView.frameHeight = 0;
-                                cusbut.frameY = (cusbut.tag - 66) * kAdaptor(40);
-                                weakSelf.frameHeight = kAdaptor(40)*dataArr.count;
+                                cusbut.frameY = (cusbut.tag - 66) * kAdaptor(groupSecondCellHight);
+                                weakSelf.frameHeight = kAdaptor(groupSecondCellHight)*dataArr.count;
                                 weakSelf.subButtonClickBlock ? weakSelf.subButtonClickBlock(contentButton.tag - 66, 10000) : nil;
                             }
                         } else {//不是当前点击的button
@@ -115,20 +115,20 @@
                             if (isSubFold) {//如果当前是显示的折叠的情况
                                 if (isbodyfoldSelect) {//折叠展开
                                     if (i != 0 && cusbut.tag > i) {
-                                        cusbut.frameY = kAdaptor(40) * (cusbut.tag - 66) + weakSelf.thirdBodyView.frameHeight;
+                                        cusbut.frameY = kAdaptor(groupSecondCellHight) * (cusbut.tag - 66) + weakSelf.thirdBodyView.frameHeight;
                                     }
                                 }else{//折叠关闭
                                     if (i != 0 && cusbut.tag > i) {
-                                        cusbut.frameY = (cusbut.tag - 66) * kAdaptor(40);
+                                        cusbut.frameY = (cusbut.tag - 66) * kAdaptor(groupSecondCellHight);
                                     }
                                 }
                             }else{//不是折叠情况
                                 if (weakSelf.thirdBodyView.frameHeight > 0) {
                                     if (i != 0 && cusbut.tag > i) {
-                                        cusbut.frameY = (cusbut.tag - 66) * kAdaptor(40);
+                                        cusbut.frameY = (cusbut.tag - 66) * kAdaptor(groupSecondCellHight);
                                     }
                                 } else {
-                                    cusbut.frameY = (cusbut.tag - 66) * kAdaptor(40);
+                                    cusbut.frameY = (cusbut.tag - 66) * kAdaptor(groupSecondCellHight);
                                 }
                             }
                         }
@@ -148,7 +148,7 @@
 +(CGFloat)calculateHeightWithData:(NSArray *)dataArr WithSelectIndex:(NSInteger)index{
     CGFloat height = 0;
     if (dataArr.count > 0) {
-        height += kAdaptor(40) * dataArr.count;
+        height += kAdaptor(groupSecondCellHight) * dataArr.count;
         if (index != 10000) {
             id content = dataArr[index];
             if ([content isKindOfClass:[NSDictionary class]]) {

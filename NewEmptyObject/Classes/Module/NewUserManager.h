@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#define groupSecondCellHight 40
+#define groupSecondCellHight 40 //定义第二层cell的高度
 #define groupThirdCellHeight 40 //定义第三层cell的高度
 @interface NewUserManager : NSObject
 

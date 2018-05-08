@@ -86,6 +86,7 @@
 }
 
 - (void)addSubUI{
+    _subHeight = 0;
     _bodyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kAdaptor(250), kAdaptor(mallCellHeight))];
     _bodyView.backgroundColor = [UIColor whiteColor];
     _bodyView.clipsToBounds = YES;
@@ -96,7 +97,6 @@
     [bodyButton addTarget:self action:@selector(bodyButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_bodyView addSubview:_bodyButton];
     _leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(kAdaptor(10), kAdaptor(15), kAdaptor(20), kAdaptor(20))];
-    //_leftImg.backgroundColor = [UIColor redColor];
     [bodyButton addSubview:_leftImg];
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftImg.frame) + kAdaptor(20), 0, kAdaptor(80), bodyButton.frame.size.height)];
     _titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -118,13 +118,15 @@
         _isFolding = YES;
        CustomSecondView *subView = [[CustomSecondView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_bodyButton.frame), _bodyView.frame.size.width, 0)];
         subView.backgroundColor = [UIColor blueColor];
+        subView.frameHeight = kAdaptor(groupSecondCellHight)*contentArr.count;
         _subView = subView;
-        subView.frameHeight = kAdaptor(40)*contentArr.count;
-        _subHeight = subView.frameHeight;
         [_bodyView addSubview:subView];
         [subView setcontentWithData:contentArr];
-        if (_isSelect && _isFolding && [_MUser.secondIndex integerValue] == 10000) {
+        if (_isSelect) {
+            _subHeight = subView.frameHeight;
             _bodyView.frameHeight = _bodyButton.frameHeight + _subHeight;
+        } else {
+            _bodyView.frameHeight = _bodyButton.frameHeight;
         }
         __weak __typeof(self) weakSelf = self;
         //10000就相当于是空数据 因为NSInterger默认nil是0
@@ -132,7 +134,7 @@
             if (secondIndex != 10000 && thirdIndex == 10000) {
                 weakSelf.contentClickBlock ? weakSelf.contentClickBlock(secondIndex) : nil;
                 weakSelf.subHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:10000];
-                weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
+                weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subHeight;
                 weakSelf.subView.frameHeight = weakSelf.subHeight;
                 weakSelf.bodyButtonBlock ? weakSelf.bodyButtonBlock(weakSelf.bodyButton.selected, weakSelf.isFolding, secondIndex, 10000): nil;
             }
@@ -140,13 +142,13 @@
                 if (thirdIndex == 999) {//第三层未点击时
                     weakSelf.contentClickBlock ? weakSelf.contentClickBlock(secondIndex) : nil;
                     weakSelf.subHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];
-                    weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
+                    weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subHeight;
                     weakSelf.bodyButtonBlock ? weakSelf.bodyButtonBlock(weakSelf.bodyButton.selected, weakSelf.isFolding, secondIndex, thirdIndex): nil;
                     weakSelf.subView.frameHeight = weakSelf.subHeight;
                 }else{//第三层点击时
                     weakSelf.contentThirdClickBlock ? weakSelf.contentThirdClickBlock(thirdIndex) : nil;
                     weakSelf.subHeight = [CustomSecondView calculateHeightWithData:contentArr WithSelectIndex:secondIndex];;
-                    weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subView.frameHeight;
+                    weakSelf.bodyView.frameHeight = weakSelf.bodyButton.frameHeight + weakSelf.subHeight;
                     weakSelf.subView.frameHeight = weakSelf.subHeight;
                 }
             }
@@ -161,7 +163,7 @@
     CGFloat height = kAdaptor(mallCellHeight);
     NSArray *contentArr = [data objectForKey:@"contentArr"];
     if (contentArr.count > 0) {
-        height += contentArr.count * kAdaptor(40);
+        height += contentArr.count * kAdaptor(groupSecondCellHight);
         if (index != 10000) {
             id content = contentArr[index];
             if ([content isKindOfClass:[NSDictionary class]]) {

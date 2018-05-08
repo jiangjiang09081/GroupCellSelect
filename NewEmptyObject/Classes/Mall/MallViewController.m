@@ -78,7 +78,6 @@
     if (!cell) {
         cell = [[MainTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mineCell"];
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     BOOL click = NO;
     BOOL isfold = NO;
     NSString *secondIndex = nil;
@@ -123,6 +122,7 @@
         NSLog(@"第三层点击事件%ld", (long)index);
     };
     [cell getContentWithData:_dataArr[indexPath.row]];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
