@@ -65,6 +65,9 @@
     _tab.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     _tab.delegate = self;
     _tab.dataSource = self;
+    self.tab.estimatedRowHeight =0;
+    self.tab.estimatedSectionHeaderHeight =0;
+    self.tab.estimatedSectionFooterHeight =0;
     [self.view addSubview:_tab];
 }
 
